@@ -9,7 +9,7 @@ contract Username {
     mapping(string => address) addresses;
 
     function setUserName(string userName) public {
-        require(!userName.isEmpty() && (addresses[userName] == 0));
+        require(!userName.isEmpty() && (addresses[userName] == 0) && (!userNames[msg.sender].isEmpty()));
         userNames[msg.sender] = userName;
         addresses[userName] = msg.sender;
     }
