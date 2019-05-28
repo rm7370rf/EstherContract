@@ -28,8 +28,7 @@ contract Esther is Username {
     //constructor() public { }
 
     function addTopic(string subject, string message) public {
-        require(subject.isEmpty());
-        require(message.isEmpty());
+        require(!subject.isEmpty() && !message.isEmpty());
 
         uint256 id = topics.length;
         topics.push(Topic({
@@ -44,8 +43,7 @@ contract Esther is Username {
     }
 
     function addPostToTopic(uint256 topicId, string message) public {
-        require(topicId == (countTopics() - 1));
-        require(message.isEmpty());
+        require((topicId == (countTopics() - 1)) && !message.isEmpty());
 
         Topic storage topic = topics[topicId];
         topic.posts[topic.numberOfPosts] = Post({
