@@ -1,9 +1,11 @@
 pragma solidity ^0.4.19;
 
+import "./StringUtils.sol";
+
 contract Esther {
+    using StringUtils for string;
     /*
         TODO: Add require(bool, "message")
-        TODO: Add username selection
     */
 
     event AddPost(uint256 topicId, string message, address userAddress, uint256 timestamp);
@@ -26,9 +28,15 @@ contract Esther {
         mapping(uint256 => Post) posts;
     }
 
+    mapping(address => string) userNames;
+
     Topic[] private topics;
 
     //constructor() public { }
+
+    function setUserName(string userName) public {
+        userNames[msg.sender] = userName;
+    }
 
     function addTopic(string subject, string message) public {
         uint256 id = topics.length;
@@ -54,14 +62,18 @@ contract Esther {
         topic.numberOfPosts++;
     }
 
-    function getTopic(uint256 topicId) public view returns (uint256 id, string subject, string message, address userAddress, uint256 timestamp) {
+    function getTopic(uint256 topicId) public view returns (uint256 id, string subject, string message, address userAddress, string userName, uint256 timestamp) {
         Topic storage topic = topics[topicId];
-        return (topic.id, topic.subject, topic.message, topic.userAddress, topic.timestamp);
+        return (topic.id, topic.subject, topic.message, topic.userAddress, getUsername(topic.userAddress).toNaIfEmpty(), topic.timestamp);
     }
 
-    function getPostAtTopic(uint256 topicId, uint256 postId) public view returns(uint256 id, string message, address userAddress, uint256 timestamp) {
+    function getPostAtTopic(uint256 topicId, uint256 postId) public view returns(uint256 id, string message, address userAddress, string userName, uint256 timestamp) {
         Post storage post = topics[topicId].posts[postId];
-        return (post.id, post.message, post.userAddress, post.timestamp);
+        return (post.id, post.message, post.userAddress, getUsername(post.userAddress).toNaIfEmpty(), post.timestamp);
+    }
+
+    function getUsername(address userAddress) public view returns (string) {
+        return userNames[userAddress];
     }
 
     function countPostsAtTopic(uint256 topicId) public view returns (uint256) {
