@@ -2,9 +2,13 @@ pragma solidity ^0.4.19;
 
 contract Esther {
     /*
-        TODO: Add events (add posts, add topic).
+        TODO: Add require(bool, "message")
         TODO: Add username selection
     */
+
+    event AddPost(uint256 topicId, string message, address userAddress, uint256 timestamp);
+    event AddTopic(string subject, string message, address userAddress, uint256 timestamp);
+
     struct Post {
         uint256 id;
         string message;
