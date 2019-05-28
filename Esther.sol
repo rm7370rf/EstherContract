@@ -1,13 +1,8 @@
 pragma solidity ^0.4.19;
 
-import "./StringUtils.sol";
+import "./Username.sol";
 
-contract Esther {
-    using StringUtils for string;
-    /*
-        TODO: Add require(bool, "message")
-    */
-
+contract Esther is Username {
     event AddPost(uint256 topicId, string message, address userAddress, uint256 timestamp);
     event AddTopic(string subject, string message, address userAddress, uint256 timestamp);
 
@@ -28,15 +23,9 @@ contract Esther {
         mapping(uint256 => Post) posts;
     }
 
-    mapping(address => string) userNames;
-
     Topic[] private topics;
 
     //constructor() public { }
-
-    function setUserName(string userName) public {
-        userNames[msg.sender] = userName;
-    }
 
     function addTopic(string subject, string message) public {
         require(subject.isEmpty());
@@ -76,10 +65,6 @@ contract Esther {
     function getPostAtTopic(uint256 topicId, uint256 postId) public view returns(uint256 id, string message, address userAddress, string userName, uint256 timestamp) {
         Post storage post = topics[topicId].posts[postId];
         return (post.id, post.message, post.userAddress, getUsername(post.userAddress).toNaIfEmpty(), post.timestamp);
-    }
-
-    function getUsername(address userAddress) public view returns (string) {
-        return userNames[userAddress];
     }
 
     function countPostsAtTopic(uint256 topicId) public view returns (uint256) {
