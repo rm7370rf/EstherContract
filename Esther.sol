@@ -39,6 +39,9 @@ contract Esther {
     }
 
     function addTopic(string subject, string message) public {
+        require(subject.isEmpty());
+        require(message.isEmpty());
+
         uint256 id = topics.length;
         topics.push(Topic({
             id: id,
@@ -52,6 +55,9 @@ contract Esther {
     }
 
     function addPostToTopic(uint256 topicId, string message) public {
+        require(topicId == (countTopics() - 1));
+        require(message.isEmpty());
+
         Topic storage topic = topics[topicId];
         topic.posts[topic.numberOfPosts] = Post({
             id: topic.numberOfPosts,
