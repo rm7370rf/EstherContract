@@ -27,7 +27,6 @@ contract Esther {
     }
 
     Topic[] private topics;
-    string public val;
 
     //constructor() public { }
 
