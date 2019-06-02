@@ -55,9 +55,9 @@ contract Esther is Username {
         topic.numberOfPosts++;
     }
 
-    function getTopic(uint256 topicId) public view returns (uint256 id, string subject, string message, address userAddress, string userName, uint256 timestamp) {
+    function getTopic(uint256 topicId) public view returns (uint256 id, string subject, string message, address userAddress, string userName, uint256 timestamp, uint256 numberOfPosts) {
         Topic storage topic = topics[topicId];
-        return (topic.id, topic.subject, topic.message, topic.userAddress, getUsername(topic.userAddress).toNaIfEmpty(), topic.timestamp);
+        return (topic.id, topic.subject, topic.message, topic.userAddress, getUsername(topic.userAddress).toNaIfEmpty(), topic.timestamp, topic.numberOfPosts);
     }
 
     function getPostAtTopic(uint256 topicId, uint256 postId) public view returns(uint256 id, string message, address userAddress, string userName, uint256 timestamp) {
