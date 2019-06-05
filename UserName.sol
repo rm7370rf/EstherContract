@@ -14,7 +14,7 @@ contract Username {
         addresses[userName] = msg.sender;
     }
 
-    function getUsername(address userAddress) public view returns (string) {
+    function getUserName(address userAddress) public view returns (string) {
         return userNames[userAddress];
     }
 }
