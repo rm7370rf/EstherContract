@@ -43,7 +43,7 @@ contract Esther is Username {
     }
 
     function addPostToTopic(uint256 topicId, string message) public {
-        require((topicId == (countTopics() - 1)) && !message.isEmpty());
+        require((topicId < countTopics()) && (topicId >= 0) && !message.isEmpty());
 
         Topic storage topic = topics[topicId];
         topic.posts[topic.numberOfPosts] = Post({
